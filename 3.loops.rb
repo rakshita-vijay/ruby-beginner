@@ -135,6 +135,7 @@ char_to_print = "x"
 end
 
 puts "#{' ' * left_spaces}#{char_to_print}#{line_no.even? ? char_to_print : ''}"
+# puts (' ' * left_spaces) + char_to_print
 
 (1..((line_no-1)/2).floor).each do |line|
   puts (' ' * (left_spaces-1)) + char_to_print + (' ' * (right_spaces+1)) + char_to_print

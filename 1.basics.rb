@@ -1,5 +1,11 @@
 #!/usr/bin/env ruby
 
+def hello_world
+  "Hello world!"
+end
+
+puts hello_world
+# ------------------------------------------------------------------------------------------
 # define a method and invoke it
 def hi(name)
   "Hello #{name}"
