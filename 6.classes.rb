@@ -751,3 +751,90 @@ puts
 klass = Class.new([student_1, student_2, student_3, student_4, student_5])
 klass.calculate_class_topper!
 puts klass
+# ------------------------------------------------------------------------------------------
+class Class
+  attr :students
+  attr_accessor :class_topper
+  attr_accessor :subject_topper
+  attr :tot_marks_students
+
+  def initialize(students = [], tot_marks_students = {})
+    @students = students
+    @tot_marks_students = tot_marks_students
+  end
+
+  def calculate_class_topper!
+    students.each do |student|
+      student.calculate_tot_marks!
+      if !tot_marks_students.has_key?(student.tot_marks)
+        tot_marks_students[student.tot_marks] = [student]
+      else
+        tot_marks_students[student.tot_marks] << student
+      end
+    end
+    @class_topper = tot_marks_students[tot_marks_students.keys.max]
+  end
+
+  def to_s
+    "Class topper: #{@class_topper.join(", ")} \nMarks: #{@class_topper.first.tot_marks}"
+  end
+end
+
+class Student
+  attr :name
+  attr_accessor :subjects
+  attr_accessor :tot_marks
+
+  def initialize(name, subjects = [])
+    @name = name
+    @subjects = subjects
+  end
+
+  def calculate_tot_marks!
+    @tot_marks = @subjects.map(&:mark).sum
+  end
+
+  def to_s
+    name
+  end
+end
+
+class Subject
+  attr :subject
+  attr_accessor :mark
+
+  def initialize(subject, mark = nil)
+    @subject = subject
+    if (mark == nil)
+      puts "Enter marks for #{@subject}: "
+      @mark = gets.strip.to_f
+    else
+      @mark = mark.to_f
+      puts "Default value for #{@subject}: #{@mark}"
+    end
+  end
+
+  def to_s
+    "#{@subject} --> #{@mark} / 100"
+  end
+end
+
+# puts, student_
+
+student_1 = Student.new("A")
+puts "Student 1: "
+puts student_1
+student_1.subjects << Subject.new("Science", 100)
+student_1.subjects << Subject.new("SST", 99)
+
+student_2 = Student.new("B")
+puts "Student 2: "
+puts student_2
+student_2.subjects << Subject.new("Science", 99)
+student_2.subjects << Subject.new("SST", 98)
+
+students = [student_1, student_2]
+
+class_name = Class.new(students)
+class_name.calculate_class_topper!
+puts class_name
